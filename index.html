@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual de UI/UX — Guia interativo</title>
+<meta name="description" content="Manual de UI/UX interativo: escolhe os tópicos (tabelas, temas, botões, acessibilidade...) e vê o conteúdo de todos de uma vez.">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
+</head>
+<body>
+
+<a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+
+<header class="topbar">
+  <div class="topbar__brand">
+    <span class="topbar__logo" aria-hidden="true">📐</span>
+    <div>
+      <h1 class="topbar__title">Manual de UI/UX</h1>
+      <p class="topbar__sub">Seleciona os tópicos e monta o teu guia</p>
+    </div>
+  </div>
+
+  <div class="topbar__actions">
+    <div class="segmented" role="group" aria-label="Tema da interface">
+      <button type="button" class="segmented__btn" data-tema="light" aria-pressed="false">☀️ Claro</button>
+      <button type="button" class="segmented__btn" data-tema="dark" aria-pressed="false">🌙 Escuro</button>
+      <button type="button" class="segmented__btn" data-tema="auto" aria-pressed="true">🖥️ Auto</button>
+    </div>
+    <button type="button" class="btn btn--ghost only-mobile" id="btn-abrir-menu" aria-expanded="false" aria-controls="painel">☰ Tópicos</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ PAINEL DE SELEÇÃO ============ -->
+  <aside class="painel" id="painel" aria-label="Seleção de tópicos">
+    <div class="painel__topo">
+      <label class="campo">
+        <span class="campo__label">Procurar tópico</span>
+        <input type="search" id="busca" class="input" placeholder="ex.: tabela, cor, formulário…" autocomplete="off">
+      </label>
+
+      <div class="painel__botoes">
+        <button type="button" class="btn btn--sm btn--ghost" id="btn-todos">Selecionar todos</button>
+        <button type="button" class="btn btn--sm btn--ghost" id="btn-limpar">Limpar</button>
+      </div>
+    </div>
+
+    <form id="form-topicos" class="painel__lista">
+      <!-- preenchido por JS -->
+    </form>
+
+    <div class="painel__rodape">
+      <p class="painel__contador" id="contador" aria-live="polite">0 tópicos selecionados</p>
+      <button type="button" class="btn btn--primario btn--bloco" id="btn-mostrar">Mostrar conteúdo</button>
+      <button type="button" class="btn btn--ghost btn--bloco btn--sm" id="btn-imprimir">🖨️ Imprimir / PDF</button>
+    </div>
+  </aside>
+
+  <!-- ============ CONTEÚDO ============ -->
+  <main class="conteudo" id="conteudo" tabindex="-1">
+
+    <section class="vazio" id="estado-vazio">
+      <div class="vazio__icone" aria-hidden="true">🧭</div>
+      <h2>Escolhe o que queres ver</h2>
+      <p>
+        Seleciona um ou mais tópicos no painel (por exemplo <strong>Tabelas</strong> e
+        <strong>Cores &amp; Temas</strong>) e carrega em <em>Mostrar conteúdo</em>.
+        O manual é montado com todas as secções escolhidas, com exemplos ao vivo e código.
+      </p>
+      <div class="vazio__atalhos">
+        <button type="button" class="chip" data-preset="tabelas,temas">Tabelas + Temas</button>
+        <button type="button" class="chip" data-preset="botoes,formularios,feedback">Kit de formulário</button>
+        <button type="button" class="chip" data-preset="cores,tipografia,espacamento">Fundamentos</button>
+        <button type="button" class="chip" data-preset="acessibilidade,responsivo">Qualidade</button>
+      </div>
+    </section>
+
+    <div id="saida" hidden>
+      <nav class="sumario" id="sumario" aria-label="Sumário das secções"></nav>
+      <div id="secoes"></div>
+      <footer class="rodape-conteudo">
+        <p>Manual gerado a partir de <strong><span id="rodape-n">0</span></strong> secções.
+           Regenera a qualquer momento alterando a seleção no painel.</p>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<script src="assets/js/content.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
