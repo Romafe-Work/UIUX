@@ -67,46 +67,33 @@ pesquisa atualizam-se sozinhos:
 }
 ```
 
-## Deploy
+## Deploy — GitHub Pages
 
-Site 100% estático (sem build). O repositório é privado, por isso o GitHub Pages não serve
-(exige plano Pro/Team). Qualquer um destes serviços publica repositórios privados no plano
-gratuito — basta ligar o repo uma vez e cada `git push` volta a publicar.
+Site 100% estático (sem build), servido a partir da raiz do repositório.
 
-### Cloudflare Pages (recomendado)
-
-1. <https://dash.cloudflare.com> → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
-2. Autorizar o GitHub e escolher a organização **Romafe-Work** e o repositório **UIUX**
-3. Configuração:
-   - Production branch: `main`
-   - Framework preset: **None**
-   - Build command: *(vazio)*
-   - Build output directory: `/`
-4. **Save and Deploy** → fica em `https://uiux.pages.dev`
-
-### Netlify
-
-Já existe `netlify.toml` (publica a raiz, sem build).
-<https://app.netlify.com> → **Add new site** → **Import an existing project** → GitHub → `UIUX` → Deploy.
-
-Ou pela linha de comandos:
+> **Pré-requisito:** o GitHub Pages só publica repositórios **privados** em planos
+> Pro/Team/Enterprise. A organização `Romafe-Work` está no plano Free, por isso o
+> repositório tem de ser **público** para o site ficar online.
 
 ```bash
-npx netlify-cli deploy --prod --dir .
-```
-
-### Vercel
-
-Já existe `vercel.json`. <https://vercel.com/new> → importar `Romafe-Work/UIUX` →
-Framework Preset **Other** → Deploy. Ou `npx vercel --prod`.
-
-### GitHub Pages (só se o repo passar a público)
-
-```bash
+# 1. tornar o repositório público (o código passa a estar visível para todos)
 gh repo edit Romafe-Work/UIUX --visibility public --accept-visibility-change-consequences
+
+# 2. ativar o Pages a partir do branch main, na raiz
 gh api -X POST repos/Romafe-Work/UIUX/pages -f "source[branch]=main" -f "source[path]=/"
-# fica em https://romafe-work.github.io/UIUX/
+
+# 3. confirmar o estado (status: built quando estiver no ar)
+gh api repos/Romafe-Work/UIUX/pages --jq '{status, url: .html_url}'
 ```
+
+Em alternativa, pela interface: **Settings → Pages → Source: Deploy from a branch →
+`main` / `/ (root)` → Save**.
+
+O site fica em **<https://romafe-work.github.io/UIUX/>** (o primeiro build demora 1–2 minutos).
+A partir daí, cada `git push` para `main` republica automaticamente.
+
+O ficheiro `.nojekyll` na raiz garante que o GitHub serve os ficheiros tal como estão,
+sem os processar com o Jekyll.
 
 ## Licença
 
