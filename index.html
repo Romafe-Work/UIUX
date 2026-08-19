@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Manual de UI/UX — Guia interativo</title>
-<meta name="description" content="Manual de UI/UX interativo: escolhe os tópicos (tabelas, temas, botões, acessibilidade...) e vê o conteúdo de todos de uma vez.">
+<title>Manual de UI — Romafe</title>
+<meta name="description" content="Manual de UI da Romafe: escolhe os capítulos que queres ver — cor, tabelas, botões, acessibilidade — e lê-os todos numa página.">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📐</text></svg>">
 </head>
@@ -14,10 +14,10 @@
 
 <header class="topbar">
   <div class="topbar__brand">
-    <span class="topbar__logo" aria-hidden="true">📐</span>
+    <span class="topbar__logo" aria-hidden="true">📘</span>
     <div>
-      <h1 class="topbar__title">Manual de UI/UX</h1>
-      <p class="topbar__sub">Seleciona os tópicos e monta o teu guia</p>
+      <h1 class="topbar__title">Manual de UI — Romafe</h1>
+      <p class="topbar__sub">Escolhe os capítulos que queres ler</p>
     </div>
   </div>
 
@@ -27,7 +27,7 @@
       <button type="button" class="segmented__btn" data-tema="dark" aria-pressed="false">🌙 Escuro</button>
       <button type="button" class="segmented__btn" data-tema="auto" aria-pressed="true">🖥️ Auto</button>
     </div>
-    <button type="button" class="btn btn--ghost only-mobile" id="btn-abrir-menu" aria-expanded="false" aria-controls="painel">☰ Tópicos</button>
+    <button type="button" class="btn btn--ghost only-mobile" id="btn-abrir-menu" aria-expanded="false" aria-controls="painel">☰ Capítulos</button>
   </div>
 </header>
 
@@ -37,8 +37,8 @@
   <aside class="painel" id="painel" aria-label="Seleção de tópicos">
     <div class="painel__topo">
       <label class="campo">
-        <span class="campo__label">Procurar tópico</span>
-        <input type="search" id="busca" class="input" placeholder="ex.: tabela, cor, formulário…" autocomplete="off">
+        <span class="campo__label">Procurar capítulo</span>
+        <input type="search" id="busca" class="input" placeholder="ex.: tabela, cor, botão…" autocomplete="off">
       </label>
 
       <div class="painel__botoes">
@@ -52,9 +52,8 @@
     </form>
 
     <div class="painel__rodape">
-      <p class="painel__contador" id="contador" aria-live="polite">0 tópicos selecionados</p>
+      <p class="painel__contador" id="contador" aria-live="polite">0 capítulos selecionados</p>
       <button type="button" class="btn btn--primario btn--bloco" id="btn-mostrar">Mostrar conteúdo</button>
-      <button type="button" class="btn btn--ghost btn--bloco btn--sm" id="btn-imprimir">🖨️ Imprimir / PDF</button>
     </div>
   </aside>
 
@@ -62,18 +61,20 @@
   <main class="conteudo" id="conteudo" tabindex="-1">
 
     <section class="vazio" id="estado-vazio">
-      <div class="vazio__icone" aria-hidden="true">🧭</div>
-      <h2>Escolhe o que queres ver</h2>
+      <div class="vazio__icone" aria-hidden="true">📘</div>
+      <h2>Escolhe o que queres ler</h2>
       <p>
-        Seleciona um ou mais tópicos no painel (por exemplo <strong>Tabelas</strong> e
-        <strong>Cores &amp; Temas</strong>) e carrega em <em>Mostrar conteúdo</em>.
-        O manual é montado com todas as secções escolhidas, com exemplos ao vivo e código.
+        Seleciona um ou mais capítulos no painel — por exemplo <strong>11 Tabelas</strong> e
+        <strong>02 Cor e temas</strong> — e carrega em <em>Mostrar conteúdo</em>.
+        O manual é montado com os capítulos escolhidos, na ordem do documento, com as
+        imagens e os valores tal como estão na versão oficial.
       </p>
       <div class="vazio__atalhos">
-        <button type="button" class="chip" data-preset="tabelas,temas">Tabelas + Temas</button>
-        <button type="button" class="chip" data-preset="botoes,formularios,feedback">Kit de formulário</button>
-        <button type="button" class="chip" data-preset="cores,tipografia,espacamento">Fundamentos</button>
-        <button type="button" class="chip" data-preset="acessibilidade,responsivo">Qualidade</button>
+        <button type="button" class="chip" data-preset="indice">Começar pelo índice</button>
+        <button type="button" class="chip" data-preset="tabelas,cor">Tabelas + Cor</button>
+        <button type="button" class="chip" data-preset="painel,cor,bordas,tipografia,icones">Fundamentos</button>
+        <button type="button" class="chip" data-preset="botoes,formularios,tabelas,modais">Componentes</button>
+        <button type="button" class="chip" data-preset="acessibilidade">Revisão</button>
       </div>
     </section>
 
@@ -81,8 +82,8 @@
       <nav class="sumario" id="sumario" aria-label="Sumário das secções"></nav>
       <div id="secoes"></div>
       <footer class="rodape-conteudo">
-        <p>Manual gerado a partir de <strong><span id="rodape-n">0</span></strong> secções.
-           Regenera a qualquer momento alterando a seleção no painel.</p>
+        <p>Manual de UI da Romafe · <strong><span id="rodape-n">0</span></strong> capítulos nesta leitura.
+           Altera a seleção no painel para montar outra.</p>
       </footer>
     </div>
   </main>

@@ -1,100 +1,79 @@
-# UIUX — Manual de UI/UX interativo
+# Manual de UI — Romafe (versão web)
 
-Manual de UI/UX em **HTML + CSS + JavaScript puro** (sem dependências, sem build).
-O utilizador **escolhe os tópicos que quer ver** — por exemplo *Tabelas* + *Temas* — e a
-página monta um manual só com essas secções, com explicação, boas práticas, exemplos ao
-vivo e código.
+Leitor web do **Manual de UI da Romafe**. O utilizador escolhe os capítulos que quer ler —
+por exemplo *11 Tabelas* + *02 Cor e temas* — e a página monta o documento só com esses,
+pela ordem do manual, com as imagens e os valores tal como estão na versão oficial.
 
-## Como usar
+HTML, CSS e JavaScript puro: sem dependências, sem build, sem framework.
 
-Abre o `index.html` no browser. Não é preciso instalar nada.
+## Fonte do conteúdo
+
+O conteúdo **não se edita aqui**. A fonte são os ficheiros Markdown do manual, em
+`/home/tguedes/projects/UiUx/` (`00-INDICE-UI.md` … `20-COMPONENTES-DE-TOQUE.md`).
+Depois de alterar o manual, regenera-se o site:
 
 ```bash
-# opcional, para servir com um servidor local
-python3 -m http.server 8000
-# depois abre http://localhost:8000
+python3 ferramentas/gerar-conteudo.py            # usa a pasta por omissão
+python3 ferramentas/gerar-conteudo.py /outra/pasta
 ```
 
-1. Seleciona um ou mais tópicos no painel da esquerda (há pesquisa e atalhos rápidos).
-2. Carrega em **Mostrar conteúdo**.
-3. O manual aparece com sumário, todas as secções escolhidas e demos interativas.
+O gerador (requer `pandoc`) converte cada capítulo para HTML, reescreve as ligações entre
+capítulos, copia as imagens e escreve:
 
-## Funcionalidades
+| Ficheiro | O que é |
+| --- | --- |
+| `assets/js/content.js` | índice dos 21 capítulos (id, título, grupo, resumo) — carregado sempre |
+| `assets/conteudo/<id>.js` | HTML de um capítulo — carregado só quando é pedido |
+| `assets/img/` | imagens do manual |
 
-- **Seleção múltipla** de tópicos com pesquisa, "selecionar todos" e presets.
-- **Sumário automático** com ligações para cada secção.
-- **Tema claro / escuro / automático**, guardado em `localStorage`.
-- **Ligação partilhável**: a seleção fica no URL (`index.html#tabelas,temas`).
-- **Demos ao vivo**: verificador de contraste, pré-visualização de tema, tabela ordenável
-  e filtrável, validação de formulário, toasts, modal `<dialog>`, abas, skeletons.
-- **Imprimir / PDF** só com o conteúdo selecionado.
+## Como funciona
+
+- **Carregamento sob demanda:** a página abre com o índice (~30 KB). Cada capítulo
+  (14–59 KB) só é descarregado quando entra na leitura. São `<script>` e não `fetch()`,
+  para o site também funcionar aberto diretamente do disco (`file://`), sem servidor.
+- **Ligações entre capítulos:** o manual remete constantemente para outros capítulos
+  (419 ligações). Clicar numa delas junta esse capítulo à leitura e salta para lá.
+- **Ligação partilhável:** a seleção fica no endereço — `index.html#tabelas,cor` abre
+  logo com esses capítulos. A última leitura também fica guardada no `localStorage`.
+- **Tema** claro / escuro / automático (segue o sistema).
+- **Pesquisa** por título e resumo no painel, com "selecionar todos" e atalhos.
 - Acessível: navegação por teclado, foco visível, `aria-*`, `prefers-reduced-motion`.
 
-## Tópicos
+## Capítulos
 
-| Grupo | Tópicos |
-|---|---|
-| Fundamentos | Cores & Paleta · Temas (claro/escuro) · Tipografia · Espaçamento & Grelha |
-| Componentes | Botões & Ações · Formulários & Inputs · Tabelas de dados · Navegação · Feedback & Estados · Modais & Overlays |
-| Práticas | Acessibilidade · Responsividade · Microcopy · Heurísticas & Leis de UX |
+| Grupo | Capítulos |
+| --- | --- |
+| Introdução | 00 Índice e âmbito |
+| Fundamentos | 01 Padrão de painel · 02 Cor e temas · 03 Bordas, raios e sombras · 04 Tipografia · 05 Ícones |
+| Estrutura | 06 Menu e navegação · 07 Layout e posição · 08 Cartões e superfícies |
+| Componentes | 09 Botões · 10 Formulários · 11 Tabelas · 12 Gráficos e mapas · 13 Modais e sobreposições |
+| Comportamento | 14 Estados e feedback · 15 Movimento e carregamento · 16 Exportações e impressão |
+| Regras e casos | 17 Acessibilidade e regras de revisão · 18 Ficheiros e anexos · 19 Entrada e sessão · 20 Componentes de toque |
 
 ## Estrutura
 
 ```
 UIUX/
-├── index.html              # estrutura da página
+├── index.html
 ├── assets/
-│   ├── css/style.css       # tokens de design + componentes + responsivo/print
-│   └── js/
-│       ├── content.js      # TODO o conteúdo do manual (um objeto por tópico)
-│       └── app.js          # seleção, montagem do manual e demos interativas
+│   ├── css/style.css           # tokens, componentes, tipografia do manual
+│   ├── js/content.js           # gerado — índice dos capítulos
+│   ├── js/app.js               # seleção, montagem e carregamento
+│   ├── conteudo/*.js           # gerado — um ficheiro por capítulo
+│   └── img/                    # gerado — imagens do manual
+├── ferramentas/gerar-conteudo.py
 └── README.md
-```
-
-## Acrescentar um tópico novo
-
-Basta juntar um objeto ao array em `assets/js/content.js` — o painel, o sumário e a
-pesquisa atualizam-se sozinhos:
-
-```js
-{
-  id: 'icones',
-  grupo: 'Componentes',
-  icone: '⭐',
-  titulo: 'Ícones',
-  resumo: 'Estilo, tamanho e significado.',
-  html: `<h3>...</h3><p>...</p>`
-}
 ```
 
 ## Deploy — GitHub Pages
 
-Site 100% estático (sem build), servido a partir da raiz do repositório.
+Já está ativo: o site é servido do branch `main`, na raiz, em
+**<https://romafe-work.github.io/UIUX/>**. Cada `git push` para `main` republica.
 
-> **Pré-requisito:** o GitHub Pages só publica repositórios **privados** em planos
-> Pro/Team/Enterprise. A organização `Romafe-Work` está no plano Free, por isso o
-> repositório tem de ser **público** para o site ficar online.
+O repositório tem de continuar **público** — o GitHub Pages só serve repositórios privados
+em planos Pro/Team, e a organização está no plano Free. O `.nojekyll` na raiz garante que
+os ficheiros são servidos tal como estão.
 
 ```bash
-# 1. tornar o repositório público (o código passa a estar visível para todos)
-gh repo edit Romafe-Work/UIUX --visibility public --accept-visibility-change-consequences
-
-# 2. ativar o Pages a partir do branch main, na raiz
-gh api -X POST repos/Romafe-Work/UIUX/pages -f "source[branch]=main" -f "source[path]=/"
-
-# 3. confirmar o estado (status: built quando estiver no ar)
-gh api repos/Romafe-Work/UIUX/pages --jq '{status, url: .html_url}'
+gh api repos/Romafe-Work/UIUX/pages --jq '{status, url: .html_url}'   # estado do site
 ```
-
-Em alternativa, pela interface: **Settings → Pages → Source: Deploy from a branch →
-`main` / `/ (root)` → Save**.
-
-O site fica em **<https://romafe-work.github.io/UIUX/>** (o primeiro build demora 1–2 minutos).
-A partir daí, cada `git push` para `main` republica automaticamente.
-
-O ficheiro `.nojekyll` na raiz garante que o GitHub serve os ficheiros tal como estão,
-sem os processar com o Jekyll.
-
-## Licença
-
-MIT.
