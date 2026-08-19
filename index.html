@@ -36,10 +36,17 @@
   <!-- ============ PAINEL DE SELEÇÃO ============ -->
   <aside class="painel" id="painel" aria-label="Seleção de tópicos">
     <div class="painel__topo">
-      <label class="campo">
-        <span class="campo__label">Procurar capítulo</span>
-        <input type="search" id="busca" class="input" placeholder="ex.: tabela, cor, botão…" autocomplete="off">
-      </label>
+      <div class="procura">
+        <span class="procura__lupa" aria-hidden="true">🔍</span>
+        <input type="search" id="busca" class="procura__campo" autocomplete="off" spellcheck="false"
+               placeholder="Procurar no manual…" aria-label="Procurar palavra ou frase em todo o manual"
+               aria-describedby="procura-dica">
+        <button type="button" class="procura__opcao" id="opt-maiusculas" aria-pressed="false"
+                title="Diferenciar maiúsculas de minúsculas">Aa</button>
+        <button type="button" class="procura__opcao" id="opt-palavra" aria-pressed="false"
+                title="Apenas palavras inteiras">|ab|</button>
+      </div>
+      <p class="procura__dica" id="procura-dica">Palavra ou frase, em todos os 21 capítulos. <kbd>/</kbd> para focar.</p>
 
       <div class="painel__botoes">
         <button type="button" class="btn btn--sm btn--ghost" id="btn-todos">Selecionar todos</button>
@@ -76,6 +83,14 @@
         <button type="button" class="chip" data-preset="botoes,formularios,tabelas,modais">Componentes</button>
         <button type="button" class="chip" data-preset="acessibilidade">Revisão</button>
       </div>
+    </section>
+
+    <section class="resultados" id="resultados" hidden aria-label="Resultados da pesquisa">
+      <header class="resultados__cab">
+        <h2 id="resultados-titulo">Resultados</h2>
+        <button type="button" class="btn btn--sm btn--ghost" id="btn-fechar-pesquisa">✕ Fechar pesquisa</button>
+      </header>
+      <div id="resultados-lista"></div>
     </section>
 
     <div id="saida" hidden>

@@ -24,6 +24,7 @@ capítulos, copia as imagens e escreve:
 | --- | --- |
 | `assets/js/content.js` | índice dos 21 capítulos (id, título, grupo, resumo) — carregado sempre |
 | `assets/conteudo/<id>.js` | HTML de um capítulo — carregado só quando é pedido |
+| `assets/js/pesquisa.js` | índice de texto integral — carregado ao primeiro uso da procura |
 | `assets/img/` | imagens do manual |
 
 ## Como funciona
@@ -36,7 +37,12 @@ capítulos, copia as imagens e escreve:
 - **Ligação partilhável:** a seleção fica no endereço — `index.html#tabelas,cor` abre
   logo com esses capítulos. A última leitura também fica guardada no `localStorage`.
 - **Tema** claro / escuro / automático (segue o sistema).
-- **Pesquisa** por título e resumo no painel, com "selecionar todos" e atalhos.
+- **Pesquisa de texto integral**, como no editor: escreve uma palavra ou uma frase e vê todas
+  as ocorrências em todo o manual, agrupadas por capítulo, com o excerto e a contagem.
+  Ignora acentos e maiúsculas por omissão; `Aa` diferencia maiúsculas e `|ab|` limita a
+  palavras inteiras. `/` ou `Ctrl+K` foca a caixa, `Enter` abre o primeiro resultado,
+  `Esc` fecha. Clicar num resultado abre o capítulo e realça lá todas as ocorrências.
+  O índice (`assets/js/pesquisa.js`, 5 740 blocos) só é descarregado ao primeiro uso.
 - Acessível: navegação por teclado, foco visível, `aria-*`, `prefers-reduced-motion`.
 
 ## Capítulos
@@ -58,7 +64,8 @@ UIUX/
 ├── assets/
 │   ├── css/style.css           # tokens, componentes, tipografia do manual
 │   ├── js/content.js           # gerado — índice dos capítulos
-│   ├── js/app.js               # seleção, montagem e carregamento
+│   ├── js/pesquisa.js          # gerado — índice de texto integral
+│   ├── js/app.js               # seleção, montagem, carregamento e pesquisa
 │   ├── conteudo/*.js           # gerado — um ficheiro por capítulo
 │   └── img/                    # gerado — imagens do manual
 ├── ferramentas/gerar-conteudo.py

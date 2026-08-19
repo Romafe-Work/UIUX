@@ -11,7 +11,9 @@ Produz:
 
 Requer: pandoc
 """
+import html as _html
 import json, re, shutil, subprocess, sys
+from html.parser import HTMLParser
 from pathlib import Path
 
 ORIGEM = Path(sys.argv[1] if len(sys.argv) > 1 else '/home/tguedes/projects/UiUx')
@@ -92,12 +94,61 @@ def converter(md: Path, cid: str) -> str:
     return html.strip()
 
 
+class Extrator(HTMLParser):
+    """Parte o HTML de um capítulo em blocos de texto pesquisáveis,
+    cada um com o título da secção a que pertence."""
+    BLOCOS = {'p', 'li', 'h2', 'h3', 'h4', 'pre', 'td', 'th', 'figcaption'}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.blocos, self.buf, self.profundidade = [], None, 0
+        self.sec_id, self.sec_txt = '', ''
+        self.h_id, self.em_h = '', False
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ('h2', 'h3'):
+            self.em_h = True
+            self.h_id = dict(attrs).get('id', '')
+        if tag in self.BLOCOS:
+            if self.buf is None:
+                self.buf = []
+            self.profundidade += 1
+
+    def handle_endtag(self, tag):
+        if tag in self.BLOCOS and self.buf is not None:
+            self.profundidade -= 1
+            if self.profundidade <= 0:
+                texto = ' '.join(''.join(self.buf).split())
+                if self.em_h:
+                    self.sec_id, self.sec_txt, self.em_h = self.h_id, texto, False
+                if len(texto) > 2:
+                    self.blocos.append([self.sec_id, self.sec_txt, texto])
+                self.buf, self.profundidade = None, 0
+
+    def handle_data(self, dados):
+        if self.buf is not None:
+            self.buf.append(dados)
+
+
+def indexar(html: str):
+    """[[id-da-seccao, titulo-da-seccao, [texto, texto, …]], …]"""
+    e = Extrator()
+    e.feed(html)
+    seccoes = []
+    for sec_id, sec_txt, texto in e.blocos:
+        if seccoes and seccoes[-1][0] == sec_id:
+            seccoes[-1][2].append(texto)
+        else:
+            seccoes.append([sec_id, sec_txt, [texto]])
+    return seccoes
+
+
 def main():
     if not ORIGEM.is_dir():
         sys.exit(f'Pasta do manual não encontrada: {ORIGEM}')
 
     (DESTINO / 'assets' / 'conteudo').mkdir(parents=True, exist_ok=True)
-    indice, total = [], 0
+    indice, total, pesquisa = [], 0, {}
 
     for cid, ficheiro, icone, grupo, titulo, resumo in CAPITULOS:
         md = ORIGEM / ficheiro
@@ -110,6 +161,7 @@ def main():
             f'registarCapitulo({json.dumps(cid)}, {json.dumps(html, ensure_ascii=False)});\n',
             encoding='utf-8')
         total += len(html)
+        pesquisa[cid] = indexar(html)
         indice.append({'id': cid, 'grupo': grupo, 'icone': icone,
                        'titulo': titulo, 'resumo': resumo, 'fonte': ficheiro})
         print(f'  {ficheiro:34} → assets/conteudo/{cid}.js  ({len(html)//1024} KB)')
@@ -119,6 +171,13 @@ def main():
         '   A fonte é o Manual de UI da Romafe (ficheiros .md). */\n'
         'window.CONTEUDO = ' + json.dumps(indice, ensure_ascii=False, indent=2) + ';\n',
         encoding='utf-8')
+
+    blocos = sum(len(t) for v in pesquisa.values() for _, _, t in v)
+    js_pesquisa = ('/* Gerado por ferramentas/gerar-conteudo.py — índice de pesquisa.\n'
+                   '   Carregado só quando alguém escreve na caixa de procura. */\n'
+                   'registarIndice(' + json.dumps(pesquisa, ensure_ascii=False, separators=(',', ':')) + ');\n')
+    (DESTINO / 'assets' / 'js' / 'pesquisa.js').write_text(js_pesquisa, encoding='utf-8')
+    print(f'  índice de pesquisa: {blocos} blocos, {len(js_pesquisa)//1024} KB')
 
     origem_img = ORIGEM / 'img'
     if origem_img.is_dir():
