@@ -82,28 +82,28 @@
 }
 
 [data-theme="dark"] {
-  --c-fundo:        #131312;
-  --c-superficie:   #1a1a19;
-  --c-superficie-2: #201f1e;
-  --c-superficie-3: #2c2c2a;
+  --c-fundo:        #2c2c2a;
+  --c-superficie:   #333331;
+  --c-superficie-2: #393937;
+  --c-superficie-3: #40403e;
   --c-borda:        rgba(255,255,255,.12);
   --c-borda-forte:  rgba(255,255,255,.24);
 
   --c-texto:        #ffffff;
-  --c-texto-2:      #c3c2b7;
-  --c-texto-3:      #898781;
+  --c-texto-2:      #cdccc1;
+  --c-texto-3:      #adaca1;
 
   --c-marca:        #a8caee;
   --c-marca-forte:  #deebfb;
-  --c-marca-suave:  #28303a;
+  --c-marca-suave:  #414548;
   --c-acao:         #fb8f39;
   --c-acao-traco:   #fb8f39;
-  --c-ok:           #82ae7c;
-  --c-ok-suave:     #20301d;
+  --c-ok:           #8fbc89;
+  --c-ok-suave:     #373e34;
   --c-aviso:        #f5c518;
-  --c-aviso-suave:  #33290d;
-  --c-erro:         #e28781;
-  --c-erro-suave:   #42201d;
+  --c-aviso-suave:  #4a452e;
+  --c-erro:         #f49791;
+  --c-erro-suave:   #473835;
 
   --s-1: 0 1px 2px rgba(0,0,0,.4);
   --s-2: 0 4px 14px rgba(0,0,0,.45);
