@@ -25,16 +25,17 @@
 /* ---------- 1) TOKENS (design tokens) ---------- */
 :root {
   /* cor — superfícies */
-  --c-fundo:        #f6f7f9;
+  --c-fundo:        #f4f5f7;
   --c-superficie:   #ffffff;
-  --c-superficie-2: #f0f2f5;
-  --c-borda:        #dfe3e8;
-  --c-borda-forte:  #c3cad3;
+  --c-superficie-2: #f7f8fa;
+  --c-superficie-3: #eceff3;
+  --c-borda:        #dfe2e7;
+  --c-borda-forte:  #c8ccd3;
 
-  /* cor — texto */
-  --c-texto:        #16191d;
-  --c-texto-2:      #5b6572;
-  --c-texto-3:      #8b95a3;
+  /* cor — texto (02 §3) */
+  --c-texto:        #222428;
+  --c-texto-2:      #52514e;
+  --c-texto-3:      #6b6e74;
 
   /* cor — marca e estados */
   --c-marca:        #00537e;
@@ -42,12 +43,12 @@
   --c-marca-suave:  #e0eaf0;
   --c-acao:         #ef7b10;
   --c-acao-traco:   #ba5c00;
-  --c-ok:           #167c48;
-  --c-ok-suave:     #e3f5eb;
-  --c-aviso:        #9a6400;
-  --c-aviso-suave:  #fdf1da;
-  --c-erro:         #b3261e;
-  --c-erro-suave:   #fdeceb;
+  --c-ok:           #2e6b25;
+  --c-ok-suave:     #e7efe6;
+  --c-aviso:        #876c0d;
+  --c-aviso-suave:  #fdf5d5;
+  --c-erro:         #ac2e25;
+  --c-erro-suave:   #f9e7e6;
 
   /* tipografia */
   --f-base: 'Lato', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -73,27 +74,28 @@
 }
 
 [data-theme="dark"] {
-  --c-fundo:        #0e1117;
-  --c-superficie:   #161b22;
-  --c-superficie-2: #1e242e;
-  --c-borda:        #2b3340;
-  --c-borda-forte:  #3d4756;
+  --c-fundo:        #131312;
+  --c-superficie:   #1a1a19;
+  --c-superficie-2: #201f1e;
+  --c-superficie-3: #2c2c2a;
+  --c-borda:        rgba(255,255,255,.12);
+  --c-borda-forte:  rgba(255,255,255,.24);
 
-  --c-texto:        #e8edf4;
-  --c-texto-2:      #a5b0be;
-  --c-texto-3:      #77828f;
+  --c-texto:        #ffffff;
+  --c-texto-2:      #c3c2b7;
+  --c-texto-3:      #898781;
 
   --c-marca:        #a8caee;
   --c-marca-forte:  #deebfb;
   --c-marca-suave:  #28303a;
   --c-acao:         #fb8f39;
   --c-acao-traco:   #fb8f39;
-  --c-ok:           #6ddba0;
-  --c-ok-suave:     #12291d;
-  --c-aviso:        #f0c164;
-  --c-aviso-suave:  #2c2312;
-  --c-erro:         #ff9b93;
-  --c-erro-suave:   #32191a;
+  --c-ok:           #82ae7c;
+  --c-ok-suave:     #20301d;
+  --c-aviso:        #f5c518;
+  --c-aviso-suave:  #33290d;
+  --c-erro:         #e28781;
+  --c-erro-suave:   #42201d;
 
   --s-1: 0 1px 2px rgba(0,0,0,.4);
   --s-2: 0 4px 14px rgba(0,0,0,.45);
