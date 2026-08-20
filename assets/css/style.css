@@ -207,12 +207,12 @@ code, kbd, pre { font-family: var(--f-mono); font-size: .875em; }
 .btn:active { transform: translateY(1px); }
 .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 .btn--primario { background: var(--c-marca); color: #fff; }
-[data-theme="dark"] .btn--primario { color: #0e1117; }
+[data-theme="dark"] .btn--primario { color: #2c2c2a; }
 .btn--primario:hover { background: var(--c-marca-forte); }
 .btn--ghost { background: transparent; border-color: var(--c-borda-forte); }
 .btn--ghost:hover { background: var(--c-superficie-2); }
 .btn--perigo { background: var(--c-erro); color: #fff; }
-[data-theme="dark"] .btn--perigo { color: #32191a; }
+[data-theme="dark"] .btn--perigo { color: #473835; }
 .btn--sm { min-height: 34px; padding: 7px var(--e-3); font-size: var(--t-sm); }
 .btn--bloco { width: 100%; }
 .btn + .btn { margin-left: 0; }
