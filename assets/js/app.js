@@ -447,4 +447,26 @@
 
   atualizarContador();
   if (inicial.length) { definirSelecao(inicial); mostrar(); }
+
+  /* Alturas do que fica colado ao topo.
+     A barra de cima e o cabeçalho do capítulo ficam ambos fixos, e as duas
+     alturas dependem do texto que lá está e da largura da janela — a 900px o
+     título do capítulo passa a duas linhas e cresce 30px. Escritas à mão, o
+     salto para uma âncora aterrava por baixo delas e a primeira linha ficava
+     cortada. Medem-se aqui e vão para o CSS. */
+  function medirTopos() {
+    const topo = document.querySelector('.topbar');
+    const cabecalho = document.querySelector('.secao__cabecalho');
+    const raiz = document.documentElement;
+    if (topo) raiz.style.setProperty('--h-topo', Math.round(topo.offsetHeight) + 'px');
+    if (cabecalho) raiz.style.setProperty('--h-cabecalho', Math.round(cabecalho.offsetHeight) + 'px');
+  }
+  medirTopos();
+  window.addEventListener('resize', medirTopos);
+  /* O cabeçalho só existe depois de haver capítulos na leitura, e o seu tamanho
+     muda com o capítulo que está no topo. */
+  if (window.ResizeObserver && el.secoes) {
+    new ResizeObserver(medirTopos).observe(el.secoes);
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(medirTopos);
 })();
