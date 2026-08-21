@@ -140,9 +140,11 @@ code, kbd, pre { font-family: var(--f-mono); font-size: .875em; }
   position: sticky; top: 0; z-index: 30;
   display: flex; align-items: center; justify-content: space-between; gap: var(--e-4);
   padding: var(--e-3) var(--e-5);
-  background: color-mix(in srgb, var(--c-superficie) 88%, transparent);
-  backdrop-filter: blur(10px);
+  /* Opaca de propósito. Uma barra translúcida por cima de texto corrido
+     deixa o texto aparecer através dela, e o que se lê é um borrão. */
+  background: var(--c-superficie);
   border-bottom: 1px solid var(--c-borda);
+  box-shadow: 0 6px 16px -12px rgba(0,0,0,.55);
 }
 .topbar__brand { display: flex; align-items: center; gap: var(--e-3); }
 .topbar__logo { font-size: 1.75rem; line-height: 1; }
@@ -295,15 +297,24 @@ code, kbd, pre { font-family: var(--f-mono); font-size: .875em; }
 .secao {
   max-width: var(--largura-max); margin: 0 auto var(--e-6);
   background: var(--c-superficie); border: 1px solid var(--c-borda);
-  border-radius: var(--r-lg); box-shadow: var(--s-1); overflow: hidden;
+  border-radius: var(--r-lg); box-shadow: var(--s-1);
+  /* clip e nao hidden: o hidden transforma a secção num contentor de scroll,
+     e um `position: sticky` lá dentro deixa de ter a que se colar. O clip
+     corta na mesma nos cantos arredondados. A primeira linha fica como
+     recurso para quem não suporte clip. */
+  overflow: hidden;
+  overflow: clip;
   scroll-margin-top: calc(var(--h-topo) + 12px);
 }
 .secao__cabecalho {
   display: flex; align-items: center; gap: var(--e-3);
   padding: var(--e-5); border-bottom: 1px solid var(--c-borda);
-  background: linear-gradient(180deg, var(--c-superficie-2), var(--c-superficie));
+  /* Cor cheia, e não um gradiente que acaba na cor do corpo: assim o
+     cabeçalho lê-se como uma camada por cima, e a linha de texto que lhe
+     passa por baixo não parece um corte a meio. A sombra faz o resto. */
+  background: var(--c-superficie-2);
   position: sticky; top: var(--h-topo); z-index: 5;
-  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 18px -14px rgba(0,0,0,.6);
 }
 .secao__icone { font-size: 1.75rem; }
 .secao__cabecalho h2 { margin: 0; font-size: var(--t-2xl); }
@@ -463,13 +474,16 @@ pre .er, pre .al { color: #ff9b93; }
 
 .res-grupo {
   background: var(--c-superficie); border: 1px solid var(--c-borda);
-  border-radius: var(--r-md); margin-bottom: var(--e-4); overflow: hidden;
+  border-radius: var(--r-md); margin-bottom: var(--e-4);
+  overflow: hidden;
+  overflow: clip;
 }
 .res-grupo__titulo {
   display: flex; align-items: center; gap: var(--e-2); margin: 0;
   padding: var(--e-3) var(--e-4); font-size: var(--t-sm);
   background: var(--c-superficie-2); border-bottom: 1px solid var(--c-borda);
   position: sticky; top: 0; z-index: 2;
+  box-shadow: 0 6px 14px -12px rgba(0,0,0,.5);
 }
 .res-grupo__titulo .badge { margin-left: auto; }
 
